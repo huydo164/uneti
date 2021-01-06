@@ -14,4 +14,6 @@ Route::group(['middleware' => ['web'], 'prefix' => '/', 'namespace' => $namespac
 
     Route::get('/', array('as' => 'SIndex','uses' => 'StaticsController@index'));
 
+    Route::post('phan-hoi', array('as' => 'site.pageContactPost', 'uses' => 'StaticsController@pageContactPost'));
+
 });

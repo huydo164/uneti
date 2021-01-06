@@ -42,19 +42,23 @@ class BaseStaticsController extends Controller{
         Loader::loadCSS('libs/jAlert/jquery.alerts.css', CGlobal::$postHead);
         Loader::loadCSS('libs/fontAwesome/css/font-awesome.min.css', CGlobal::$postHead);
 
-        $bannerHeader['banner_status'] = CGlobal::status_show;
-        $bannerHeader['banner_type'] = 0;
-        $bannerHeader['field_get'] = 'banner_id,banner_title,banner_title_show,banner_image,banner_link,banner_is_target,banner_is_rel,banner_is_run_time,banner_start_time,banner_end_time';
-        $dataBannerHeader = Banner::getBannerSite($bannerHeader, $limit = 2, 'header');
-        $dataBannerHeader = FuncLib::checkBannerShow($dataBannerHeader);
-
-        View::share('dataBannerHeader', $dataBannerHeader);
+        $bannerContent['banner_status'] = CGlobal::status_show;
+        $bannerContent['banner_type'] = 1;
+        $bannerContent['field_get'] = 'banner_id,banner_title,banner_title_show,banner_image,banner_link,banner_is_target,banner_is_rel,banner_is_run_time,banner_start_time,banner_end_time';
+        $dataBannerContent = Banner::getBannerSite($bannerContent, $limit = 1, 'content');
+        $dataBannerContent = FuncLib::checkBannerShow($dataBannerContent);
+        View::share('dataBannerContent', $dataBannerContent);
 
         $arrCategory = Category::getAllCategory(0, array(), 0);
         View::share('arrCategory',$arrCategory);
 
         $logo = Info::getItemByKeyword('LOGO_UNETI');
         View::share('logo', $logo);
+
+        $footer_left = Info::getItemByKeyword('SITE_FOOTER_LEFT');
+        View::share('footer_left', $footer_left);
+        $footer_address = Info::getItemByKeyword('SITE_FOOTER_ADDRESS');
+        View::share('footer_address', $footer_address);
     }
     public function page403(){
         $meta_img='';

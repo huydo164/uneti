@@ -187,26 +187,6 @@ use App\Library\PHPDev\ThumbImg;
                                                     </div>
                                                 </div>
                                                 <div class="clearfix"></div>
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Từ Khóa</label>
-                                                        <div class="controls">
-                                                            <?php
-                                                            $statics_tag = (isset($data->statics_tag) && $data->statics_tag != '') ? json_decode($data->statics_tag, true) : [];
-                                                            $statics_tag_key = array_keys($statics_tag);
-                                                            ?>
-                                                            @if(isset($arrTag))
-                                                                @foreach($arrTag as $item)
-                                                                    <label>
-                                                                        <input type="checkbox" @if(in_array($item->tag_id, $statics_tag_key)) checked @endif name="statics_tag[{{ $item->tag_id }}]" value="{{ $item->tag_title }}">
-                                                                        {{ $item->tag_title }}
-                                                                    </label><br>
-                                                                @endforeach
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix"></div>
                                             </div>
                                         </div>
                                         <div class="panel-footer clearfix">

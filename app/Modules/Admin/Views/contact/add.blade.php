@@ -46,18 +46,18 @@ use App\Library\PHPDev\ThumbImg;
                                                     <div class="col-sm-6">
                                                         <div class="col-sm-12">
                                                             <div class="form-group">
-                                                                <label class="control-label">Tên<span>*</span></label>
+                                                                <label class="control-label">Email<span>*</span></label>
                                                                 <div class="controls">
-                                                                    <input type="text" class="form-control input-sm" name="contact_name" value="@if(isset($data['contact_name'])){{$data['contact_name']}}@endif">
+                                                                    <input type="email" class="form-control input-sm" name="contact_email" value="@if(isset($data['contact_email'])){{$data['contact_email']}}@endif">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="clearfix"></div>
                                                         <div class="col-sm-12">
                                                             <div class="form-group">
-                                                                <label class="control-label">Số điện thoại</label>
+                                                                <label class="control-label">Tiêu đề</label>
                                                                 <div class="controls">
-                                                                    <input class="form-control input-sm" name="contact_phone" value ="@if(isset($data['contact_phone'])){{stripslashes($data['contact_phone'])}}@endif">
+                                                                    <input class="form-control input-sm" name="contact_title" value ="@if(isset($data['contact_title'])){{stripslashes($data['contact_title'])}}@endif">
                                                                 </div>
                                                             </div>
                                                         </div>

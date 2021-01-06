@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
 class ContactController extends BaseAdminController{
-    private $arrStatus = array(-1 => 'Chọn', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
+    private $arrStatus = array(-1 => 'Chọn', CGlobal::status_hide => 'Chưa duyệt', CGlobal::status_show => 'Đã duyệt');
     private $error = '';
 
     public function __construct()
@@ -33,7 +33,7 @@ class ContactController extends BaseAdminController{
         $search = $data = array();
         $total = 0;
 
-        $search['contact_name'] = addslashes(Request::get('contact_name', ''));
+        $search['contact_email'] = addslashes(Request::get('contact_email', ''));
         $search['contact_status'] = (int)Request::get('contact_status', -1);
         $search['submit'] = (int)Request::get('submit', 0);
         $search['field_get'] = '';
@@ -79,11 +79,11 @@ class ContactController extends BaseAdminController{
         $id_hiden = (int)Request::get('id_hiden', 0);
 
         $dataSave = array(
-            'contact_name' => array('value' => addslashes(Request::get('contact_name')), 'require' => 1, 'messages', 'Tên không được trống!'),
-            'contact_phone' => array('value' => addslashes(Request::get('contact_phone')), 'require' => 0),
+            'contact_email' => array('value' => addslashes(Request::get('contact_email')), 'require' => 1, 'messages', 'Email không được trống!'),
+            'contact_title' => array('value' => addslashes(Request::get('contact_title')), 'require' => 0),
             'contact_content' => array('value' => addslashes(Request::get('contact_content')), 'require' => 0),
             'contact_created' => array('value' => time()),
-            'contact_status' => array('value' => (int)Request::get('contact_status'))
+            'contact_status' => array('value' => (int)Request::get('contact_status', -1), 'require' => 0)
         );
 
         if ($id > 0){
@@ -103,13 +103,12 @@ class ContactController extends BaseAdminController{
             }
         }
 
-        $optionStatus = Utility::getOption($this->arrStatus, isset($data['contact_status']) ? $data['contact_status'] : -1);
+        $optionStatus = Utility::getOption($this->arrStatus, isset($data['contact_status']) ? $data['contact_status'] : CGlobal::status_show);
 
         return view('Admin::contact.add',[
             'id' => $id,
             'data' => $data,
             'optionStatus' => $optionStatus,
-            'error' => $this->error
         ]);
     }
 
@@ -120,7 +119,7 @@ class ContactController extends BaseAdminController{
         if (Session::token() === $token){
             if (is_array($checkId) && !empty($checkId)){
                 foreach ($checkId as $id){
-                    Trash::addItem($id, 'Contact', CGlobal::FOLDER_CONTACT, 'contact_id', 'contact_title', 'contact_image', '');
+                    Trash::addItem($id, 'Contact', CGlobal::FOLDER_CONTACT, 'contact_id', 'contact_email', '', '');
                     Contact::deleteId($id);
                 }
                 Utility::messages('messages', 'Xóa thành công!', 'success');

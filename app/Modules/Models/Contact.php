@@ -16,15 +16,15 @@ class Contact extends Model{
     public $timestamps = false;
 
     protected $fillable = [
-        'contact_id','contact_name', 'contact_email', 'contact_phone', 'contact_content', 'contact_address' ,'contact_created','contact_type', 'contact_status'
+        'contact_id', 'contact_email', 'contact_title', 'contact_content' ,'contact_created', 'contact_status',
     ];
 
     public static function searchByCondition($dataSearch = array(), $limit = 0, $offset = 0, &$total){
         try {
             $query = Contact::where('contact_id', '>', 0);
 
-            if (isset($dataSearch['contact_name']) && $dataSearch['contact_name'] != ''){
-                $query->where('contact_name', 'LIKE', '%'.$dataSearch['contact_name'].'%');
+            if (isset($dataSearch['contact_email']) && $dataSearch['contact_email'] != ''){
+                $query->where('contact_email', 'LIKE', '%'.$dataSearch['contact_email'].'%');
             }
             if (isset($dataSearch['contact_status']) && $dataSearch['contact_status'] != -1){
                 $query->where('contact_status', $dataSearch['contact_status']);

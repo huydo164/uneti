@@ -188,27 +188,6 @@ use App\Library\PHPDev\ThumbImg;
                                                     </div>
                                                 </div>
                                                 <div class="clearfix"></div>
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Từ Khóa</label>
-                                                        <div class="controls">
-                                                            <?php
-                                                            $statics_tag = (isset($data->statics_tag) && $data->statics_tag != '') ? json_decode($data->statics_tag, true) : [];
-                                                            $statics_tag_key = array_keys($statics_tag);
-                                                            ?>
-                                                            <?php if(isset($arrTag)): ?>
-                                                                <?php $__currentLoopData = $arrTag; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                    <label>
-                                                                        <input type="checkbox" <?php if(in_array($item->tag_id, $statics_tag_key)): ?> checked <?php endif; ?> name="statics_tag[<?php echo e($item->tag_id); ?>]" value="<?php echo e($item->tag_title); ?>">
-                                                                        <?php echo e($item->tag_title); ?>
-
-                                                                    </label><br>
-                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                            <?php endif; ?>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix"></div>
                                             </div>
                                         </div>
                                         <div class="panel-footer clearfix">

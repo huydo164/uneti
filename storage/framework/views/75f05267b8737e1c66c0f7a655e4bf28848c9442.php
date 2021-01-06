@@ -28,9 +28,9 @@ use App\Library\PHPDev\CGlobal;
                             <form id="frmSearch" method="GET" action="" class="frmSearch" name="frmSearch">
                                 <div class="panel-body panel-search">
                                     <div class="form-group col-lg-2">
-                                        <label class="control-label">Từ khóa</label>
+                                        <label class="control-label">Email</label>
                                         <div>
-                                            <input type="text" class="form-control input-sm" name="contact_name" <?php if(isset($search['contact_name']) && $search['contact_name'] !=''): ?>value="<?php echo e($search['contact_name']); ?>"<?php endif; ?>>
+                                            <input type="text" class="form-control input-sm" name="contact_email" <?php if(isset($search['contact_email']) && $search['contact_email'] !=''): ?>value="<?php echo e($search['contact_email']); ?>"<?php endif; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group col-lg-2">
@@ -77,8 +77,8 @@ use App\Library\PHPDev\CGlobal;
                                                 <span class="lbl"></span>
                                             </label>
                                         </th>
-                                        <th width="20%">Tên</th>
-                                        <th width="10%">Số điện thoại</th>
+                                        <th width="20%">Email</th>
+                                        <th width="10%">Tiêu đề</th>
                                         <th width="5%">Ngày tạo</th>
                                         <th width="5%">Trạng thái</th>
                                         <th width="5%">Action</th>
@@ -94,8 +94,8 @@ use App\Library\PHPDev\CGlobal;
                                                     <span class="lbl"></span>
                                                 </label>
                                             </td>
-                                            <td><a title="<?php echo e($item->contact_name); ?>" href=""><?php echo e($item['contact_name']); ?></a></td>
-                                            <td><?php echo e($item['contact_phone']); ?></td>
+                                            <td><a title="<?php echo e($item->contact_email); ?>" href=""><?php echo e($item['contact_email']); ?></a></td>
+                                            <td><?php echo e($item['contact_title']); ?></td>
                                             <td><?php echo e(date('d/m/Y', $item['contact_created'])); ?></td>
                                             <td>
                                                 <?php if($item['contact_status'] == '1'): ?>

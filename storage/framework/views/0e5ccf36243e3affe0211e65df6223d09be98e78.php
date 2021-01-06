@@ -12,16 +12,13 @@ use App\Library\PHPDev\FuncLib;
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="shortcut icon" href="<?php echo e(FuncLib::getBaseUrl()); ?>assets/frontend/img/favicon.ico" type="image/vnd.microsoft.icon">
-    <link media="all" type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('assets/libs/bootstrap/css/bootstrap.min.css')); ?>" />
 
 	<?php echo CGlobal::$extraMeta; ?>
 
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="shortcut icon" href="<?php echo e(FuncLib::getBaseUrl()); ?>assets/frontend/img/favicon.ico" type="image/vnd.microsoft.icon">
-    <link media="all" type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('assets/libs/bootstrap/css/bootstrap.css')); ?>" />
+    <link media="all" type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('assets/libs/bootstrap/css/bootstrap.min.css')); ?>" />
     <link media="all" type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('assets/libs/fontawesome-free-5.15.1-web/css/all.css')); ?>" />
 
     <link media="all" type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('assets/focus/css/reset.css')); ?>" />
@@ -29,12 +26,9 @@ use App\Library\PHPDev\FuncLib;
     <link media="all" type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('assets/frontend/css/media.css')); ?>" />
     <link media="all" type="text/css" rel="stylesheet" href="<?php echo e(URL::asset('assets/frontend/css/animate.css')); ?>" />
 
-    <script src="<?php echo e(URL::asset('assets/focus/js/jquery.2.1.1.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('assets/focus/js/jquery-3.4.1.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('assets/libs/bootstrap/js/bootstrap.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('assets/libs/number/autoNumeric.js')); ?>"></script>
-
-    <script src="<?php echo e(URL::asset('assets/frontend/js/site.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('assets/frontend/js/cart.js')); ?>"></script>
 
     <?php echo CGlobal::$extraHeaderCSS; ?>
 
