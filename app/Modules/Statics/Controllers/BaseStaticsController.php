@@ -10,6 +10,7 @@ namespace App\Modules\Statics\Controllers;
 use App\Modules\Models\Banner;
 use App\Modules\Models\Category;
 use App\Modules\Models\Info;
+use App\Modules\Models\Sinhvien;
 use App\Modules\Models\User;
 
 use App\Modules\Models\Statics;
@@ -21,21 +22,15 @@ use App\Library\PHPDev\ThumbImg;
 use Illuminate\Support\Facades\View;
 
 class BaseStaticsController extends Controller{
-
+    public $member;
     public function __construct(){
 
-        $arrOnline = Info::getItemByKeyword('SITE_ONLINE');
-        if(isset($arrOnline->info_status) && $arrOnline->info_status == CGlobal::status_show){
-            $this->middleware(function ($request, $next) {
-                $users = User::userLogin();
-                if(empty($users)){
-                    header('Content-Type: text/html; charset=utf-8');
-                    echo '<div style="text-align: center"><img src="'.FuncLib::getBaseUrl().'assets/frontend/img/maintain.png"></div>';
-                    echo '<div style="text-align: center; margin-top:10px">'.CGlobal::txtMaintain.'</div>';die;
-                }
-                return $next($request);
-            });
-        }
+        $this->middleware(function ($request, $next) {
+            $this->member = Sinhvien::memberLogin();
+            View::share('member', $this->member);
+
+            return $next($request);
+        });
 
         Loader::loadJS('frontend/js/site.js', CGlobal::$postEnd);
         Loader::loadJS('libs/jAlert/jquery.alerts.js', CGlobal::$postEnd);

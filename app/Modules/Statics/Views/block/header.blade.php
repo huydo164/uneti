@@ -32,7 +32,7 @@ use App\Library\PHPDev\ThumbImg;
                                 <?php $i++ ?>
                             @endif
                         @endforeach
-                        <li>
+                        <li @if($cat->category_id == 714) class="popupSV" @endif>
                             <a @if($i > 0) @endif title="{{$cat->category_title}}" href="">
                                 {{$cat->category_title}}
                             </a>
@@ -53,6 +53,17 @@ use App\Library\PHPDev\ThumbImg;
                     @endif
                 @endforeach
             @endif
+           @if(isset($member) && !empty($member))
+            <li>
+                <a href="{{route('mLogout')}}">Thoat</a>
+            </li>
+             @endif
         </ul>
     </div>
 </section>
+@include('Statics::content.component.popup-loginMember')
+<script>
+    $(document).ready(function () {
+        SITE.btnLoginUser();
+    });
+</script>

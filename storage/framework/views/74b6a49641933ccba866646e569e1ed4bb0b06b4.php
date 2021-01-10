@@ -34,7 +34,7 @@ use App\Library\PHPDev\ThumbImg;
                                 <?php $i++ ?>
                             <?php endif; ?>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        <li>
+                        <li <?php if($cat->category_id == 714): ?> class="popupSV" <?php endif; ?>>
                             <a <?php if($i > 0): ?> <?php endif; ?> title="<?php echo e($cat->category_title); ?>" href="">
                                 <?php echo e($cat->category_title); ?>
 
@@ -57,7 +57,18 @@ use App\Library\PHPDev\ThumbImg;
                     <?php endif; ?>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <?php endif; ?>
+           <?php if(isset($member) && !empty($member)): ?>
+            <li>
+                <a href="<?php echo e(route('mLogout')); ?>">Thoat</a>
+            </li>
+             <?php endif; ?>
         </ul>
     </div>
 </section>
+<?php echo $__env->make('Statics::content.component.popup-loginMember', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<script>
+    $(document).ready(function () {
+        SITE.btnLoginUser();
+    });
+</script>
 <?php /**PATH D:\wamp64\www\project.vn\uneti1\app\Modules/Statics/Views/block/header.blade.php ENDPATH**/ ?>

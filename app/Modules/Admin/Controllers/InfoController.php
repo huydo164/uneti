@@ -101,7 +101,6 @@ class InfoController extends BaseAdminController{
             'meta_keywords'=>array('value'=>addslashes(Request::get('meta_keywords')),'require'=>0),
             'meta_description'=>array('value'=>addslashes(Request::get('meta_description')),'require'=>0),
         );
-
         $this->error = ValidForm::validInputData($dataSave);
         if($this->error == ''){
             $id = ($id == 0) ? $id_hiden : $id;

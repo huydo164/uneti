@@ -46,6 +46,9 @@ class Kernel extends HttpKernel
         'checkPermission' => [
             \App\Http\Middleware\CheckPermission::class
         ],
+        'checkPermissionMember' => [
+            \App\Http\Middleware\CheckPermissionMember::class
+        ]
     ];
 
     /**

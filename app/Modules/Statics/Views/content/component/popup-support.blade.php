@@ -2,7 +2,7 @@
 use App\Library\PHPDev\CGlobal;
 use App\Library\PHPDev\FuncLib;
 ?>
-<div id="myModal" class="modal fade " tabindex="-1" role="dialog" style="display:none">
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" style="display:none">
     <div class="modal-dialog modal-dialog-popup" role="document">
         <div class="modal-content bgIndex">
             <div class="modal-title-classic">Gửi phản hồi</div>

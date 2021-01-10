@@ -20,16 +20,8 @@ class CDatabase{
     const category = 'category';
     const banner = 'banner';
     const statics = 'statics';
-    const training = 'training';
     const contact = 'contact';
-    const orders = 'orders';
-    const feedback = 'feedback';
-    const comment = 'comment';
-    const buy = 'buy';
+    const sinh_vien = 'sinh_vien';
 
-    const product = 'product';
-
-    const tag = 'tag';
-    const tag_statics = 'tag_statics';
 
 }

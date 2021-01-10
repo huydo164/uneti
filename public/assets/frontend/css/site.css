@@ -223,12 +223,13 @@ img{
     background: rgba(0,0,0,0);
     border: 1px solid #333;
     transition: all .5s ease-in;
-    outline: 0;
-    outline-style: none;
-    outline-width: 0;
-
 }
 .btnTop.active{
     bottom: 10%;
     transition: all .5s ease-in;
+}
+.btnTop:active, .btnTop:focus, .btnTop.active:active, .btnTop.active:focus{
+    outline: 0;
+    outline-style: none;
+    outline-width: 0;
 }

@@ -128,7 +128,6 @@ class Info extends Model {
             Info::addData($data_post);
             Utility::messages('messages', 'Thêm mới thành công!');
         }
-
     }
 
     public static function deleteId($id=0){

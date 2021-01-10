@@ -45,22 +45,8 @@ class Memcache{
 	//Statics
 	const CACHE_STATICS_ID = 'cache_statics_id_';
 	const CACHE_STATICS_CAT_ID = 'cache_statics_cat_id_';
-	// Product
-	const CACHE_PRODUCT_ID = 'cache_product_id_';
-	const CACHE_PRODUCT_CAT_ID = 'cache_product_cat_id_';
-	const CACHE_PRODUCT_KEYWORD = 'cache_product_keyword_';
 	//Contact
     const CACHE_CONTACT_ID = 'cache_contact_id_';
-    //Buy
-    const CACHE_BUY_ID = 'cache_buy_id_';
-
-    //Orders
-    const CACHE_ORDERS_ID = 'cache_orders_id_';
-    //Rating
-    const CACHE_RATING_ID = 'cache_rating_id_';
-
-    //Tag
-    const CACHE_TAG_ID = 'cache_tag_id_';
-    const CACHE_ALL_TAG = 'cache_all_tag';
-
+    //Sinh viên
+    const CACHE_SINHVIEN_ID = 'cache_sinhvien_id_';
 }
