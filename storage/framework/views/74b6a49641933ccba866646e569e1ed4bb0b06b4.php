@@ -5,6 +5,9 @@ use App\Library\PHPDev\ThumbImg;
 ?>
 <?php echo isset($messages) && ($messages != '') ? $messages : ''; ?>
 
+<?php if(isset($error) && $error != ''): ?>
+    <div class="alert alert-danger"><?php echo e($error); ?></div>
+<?php endif; ?>
 <header id="header">
     <div class="container">
         <div class="top-bar">

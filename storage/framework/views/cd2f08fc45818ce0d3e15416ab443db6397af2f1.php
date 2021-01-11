@@ -100,7 +100,7 @@ use App\Library\PHPDev\ThumbImg;
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Ngày sinh</label>
-                                                        <input type="text" class="form-control input-sm date" name="ngaysinh" value="<?php if(isset($data['ngaysinh']) && $data['ngaysinh'] > 0 ): ?><?php echo e(date('d-m-Y',$data['ngaysinh'])); ?><?php endif; ?>">
+                                                        <input type="text" class="form-control input-sm date" name="ngaysinh" value="<?php if(isset($data['ngaysinh']) && $data['ngaysinh'] > 0): ?><?php echo e($data['ngaysinh']); ?><?php endif; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="clearfix"></div>

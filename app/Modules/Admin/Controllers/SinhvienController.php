@@ -2,6 +2,8 @@
 
 namespace App\Modules\Admin\Controllers;
 
+use App\Library\PHPDev\CDatabase;
+use App\Library\PHPDev\CDate;
 use App\Library\PHPDev\CGlobal;
 use App\Library\PHPDev\FuncLib;
 use App\Library\PHPDev\Loader;
@@ -80,9 +82,7 @@ class SinhvienController extends BaseAdminController{
             'search' => $search,
             'messages' => $messages,
         ]);
-
     }
-
 
     public function getItem($id=0){
 
@@ -112,7 +112,6 @@ class SinhvienController extends BaseAdminController{
             'optionCareer' => $optionCareer,
             'error'=>$this->error,
         ]);
-
     }
     public function postItem($id=0){
 
@@ -127,7 +126,7 @@ class SinhvienController extends BaseAdminController{
             'sv_re_password' => array('value' => addslashes(Request::get('sv_re_password')), 'require' => 0, 'messages' => 'Nhập lại mật khẩu không được trống!'),
             'truong_hoc'=>array('value'=>(int)Request::get('truong_hoc'),'require'=>0),
             'msv'=>array('value'=>addslashes(Request::get('msv')),'require'=>0 , 'messages' => 'Mã sinh viên không được trống!'),
-            'ngaysinh'=>array('value'=>trim(Request::get('ngaysinh')),'require'=>0),
+            'ngaysinh' => array('value'=> (Request::get('ngaysinh')),'require'=>0),
             'gioi_tinh' => array('value' => (int)(Request::get('gioi_tinh')), 'require' => 0),
             'he_dao_tao' => array('value' => (int)(Request::get('he_dao_tao')), 'require' => 0),
             'so_cmt' => array('value' => (int)Request::get('so_cmt'), 'require' => 0, 'messages' => 'Số chứng minh thư không được trống!'),
@@ -148,11 +147,13 @@ class SinhvienController extends BaseAdminController{
             'sv_focus'=>array('value'=>(int)Request::get('sv_focus', -1),'require'=>0),
         );
 
-//        //Add thời gian cho ngành sinh
-//        $dateOfBirth = $dataSave['ngaysinh']['value'];
-//        $dateOfBirth = ($dateOfBirth != '') ? strtotime($dateOfBirth . '00:00:00') : 0;
-//        $dataSave['ngaysinh']['value'] = $dateOfBirth;
-//        //end add time
+        //Add thời gian cho ngành sinh
+        $dateOfBirth = $dataSave['ngaysinh']['value'];
+        $dateOfBirth = ($dateOfBirth != '') ? CDate::convertDate($dateOfBirth) : 0;
+        $dataSave['ngaysinh']['value'] = ($dateOfBirth > 0)? date('Y-m-d', $dateOfBirth) : null;
+
+        //FuncLib::bug($dataSave['ngaysinh']);
+       //end add time
 
         if($id > 0){
             unset($dataSave['sv_created']);

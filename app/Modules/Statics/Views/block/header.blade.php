@@ -4,6 +4,9 @@ use App\Library\PHPDev\FuncLib;
 use App\Library\PHPDev\ThumbImg;
 ?>
 {!! isset($messages) && ($messages != '') ? $messages : '' !!}
+@if(isset($error) && $error != '')
+    <div class="alert alert-danger">{{$error}}</div>
+@endif
 <header id="header">
     <div class="container">
         <div class="top-bar">
