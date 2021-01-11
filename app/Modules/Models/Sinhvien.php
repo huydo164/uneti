@@ -4,6 +4,7 @@ namespace App\Modules\Models;
 
 use App\Library\PHPDev\CDatabase;
 use App\Library\PHPDev\CGlobal;
+use App\Library\PHPDev\FuncLib;
 use App\Library\PHPDev\Memcache;
 use App\Library\PHPDev\Utility;
 use Illuminate\Database\Eloquent\Model;
@@ -101,6 +102,7 @@ class Sinhvien extends Model{
         try {
             DB::connection()->getPdo()->beginTransaction();
             $data = Sinhvien::getById($id);
+            //FuncLib::bug($data);
             if($id > 0 && !empty($dataInput)){
                 $data->update($dataInput);
                 if(isset($data->sinh_vien_id) && $data->sinh_vien_id > 0){

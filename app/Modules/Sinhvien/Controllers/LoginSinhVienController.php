@@ -43,18 +43,22 @@ class LoginSinhVienController extends Controller{
 
                         }else{
                             $error = 'Mật khẩu chưa đúng!';
+                            return Redirect::route('SIndex');
                         }
                     }
                 }else{
                     $error = 'Không tồn tại tên đăng nhập!';
+                    echo $error;
+                    return Redirect::route('SIndex');
                 }
             }else{
                 $error = 'Thông tin đăng nhập chưa đúng!';
+                return Redirect::route('SIndex');
             }
         }else{
             $error .= 'Phiên làm việc hết hạn. Bạn refresh lại trang web!';
+            return Redirect::route('SIndex');
         }
-        echo $error;die;
     }
     public function logout(){
         if(Session::has('member')){

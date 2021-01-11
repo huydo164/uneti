@@ -98,7 +98,7 @@ use App\Library\PHPDev\ThumbImg;
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Ngày sinh</label>
-                                                        <input type="text" class="form-control input-sm date" name="ngaysinh" value="@if(isset($data['ngaysinh']) && $data['ngaysinh'] > 0 ){{date('d-m-Y',$data['ngaysinh'])}}@endif">
+                                                        <input type="text" class="form-control input-sm date" name="ngaysinh" value="@if(isset($data['ngaysinh']) && $data['ngaysinh'] > 0){{$data['ngaysinh']}}@endif">
                                                     </div>
                                                 </div>
                                                 <div class="clearfix"></div>
