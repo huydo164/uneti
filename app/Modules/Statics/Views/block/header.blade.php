@@ -56,11 +56,6 @@ use App\Library\PHPDev\ThumbImg;
                     @endif
                 @endforeach
             @endif
-           @if(isset($member) && !empty($member))
-            <li>
-                <a href="{{route('mLogout')}}">Thoat</a>
-            </li>
-             @endif
         </ul>
     </div>
 </section>

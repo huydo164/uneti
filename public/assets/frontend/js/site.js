@@ -3,6 +3,7 @@ $(document).ready(function () {
     SITE.btnClickPopup();
     SITE.btnContact();
     SITE.btnLoginUser();
+    SITE.btnDropdown();
 })
 
 SITE = {
@@ -75,5 +76,11 @@ SITE = {
             $('#myModalLogin').modal('show');
             return false;
         });
+    },
+
+    btnDropdown:function () {
+        $('.name-user').click(function () {
+            $('.dropdown-show').toggleClass('active');
+        })
     }
 }

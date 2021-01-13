@@ -25,7 +25,7 @@ use App\Library\PHPDev\FuncLib;
     <link media="all" type="text/css" rel="stylesheet" href="{{URL::asset('assets/frontend/css/animate.css')}}" />
 
     <script src="{{URL::asset('assets/focus/js/jquery-3.4.1.min.js')}}"></script>
-    <script src="{{URL::asset('assets/libs/bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{URL::asset('assets/libs/bootstrap/js/bootstrap.js')}}"></script>
     <script src="{{URL::asset('assets/libs/number/autoNumeric.js')}}"></script>
 
     {!! CGlobal::$extraHeaderCSS !!}

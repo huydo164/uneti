@@ -8,9 +8,11 @@ use App\Library\PHPDev\CGlobal;
 use App\Library\PHPDev\FuncLib;
 use App\Library\PHPDev\Loader;
 use App\Library\PHPDev\Pagging;
+use App\Library\PHPDev\ThumbImg;
 use App\Library\PHPDev\Utility;
 use App\Library\PHPDev\ValidForm;
 use App\Modules\Models\Sinhvien;
+use App\Modules\Models\Statics;
 use App\Modules\Models\Trash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
@@ -89,6 +91,25 @@ class SinhvienController extends BaseAdminController{
         Loader::loadJS('libs/ckeditor/ckeditor.js', CGlobal::$postHead);
 
         $data = array();
+        $sv_img = '';
+        $sv_img_other = array();
+
+        if($id > 0) {
+            $data = Sinhvien::getById($id);
+            if($data != null){
+                if($data->sv_img_other != ''){
+                    $svImgOther = unserialize($data->sv_img_other);
+                    if(!empty($svImgOther)){
+                        foreach($svImgOther as $k=>$v){
+                            $url_thumb = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_SINH_VIEN, $id, $v, 400, 400, '', true, true);
+                            $sv_img_other[] = array('img_other'=>$v,'src_img_other'=>$url_thumb);
+                        }
+                    }
+                }
+                //Main Img
+                $sv_img = trim($data->sv_img);
+            }
+        }
 
         if($id > 0) {
             $data = Sinhvien::getById($id);
@@ -110,6 +131,8 @@ class SinhvienController extends BaseAdminController{
             'optionGender' => $optionGender,
             'optionTrainSystem' => $optionTrainSystem,
             'optionCareer' => $optionCareer,
+            'news_image'=>$sv_img,
+            'news_image_other'=>$sv_img_other,
             'error'=>$this->error,
         ]);
     }
@@ -155,6 +178,24 @@ class SinhvienController extends BaseAdminController{
         //FuncLib::bug($dataSave['ngaysinh']);
        //end add time
 
+        //Main Img
+        $image_primary = addslashes(Request::get('image_primary', ''));
+        //Other Img
+        $arrInputImgOther = array();
+        $getImgOther = Request::get('img_other',array());
+        if(!empty($getImgOther)){
+            foreach($getImgOther as $k=>$val){
+                if($val !=''){
+                    $arrInputImgOther[] = $val;
+                }
+            }
+        }
+        if(!empty($arrInputImgOther) && count($arrInputImgOther) > 0) {
+            //Neu Ko chon Anh Chinh, Lay Anh Chinh La Cai Dau Tien
+            $dataSave['sv_img']['value'] = ($image_primary != '') ? $image_primary : $arrInputImgOther[0];
+            $dataSave['sv_img_other']['value'] = serialize($arrInputImgOther);
+        }
+
         if($id > 0){
             unset($dataSave['sv_created']);
         }
@@ -186,6 +227,8 @@ class SinhvienController extends BaseAdminController{
             'optionGender' => $optionGender,
             'optionTrainSystem' => $optionTrainSystem,
             'optionCareer' => $optionCareer,
+            'news_image'=>$image_primary,
+            'news_image_other'=>$arrInputImgOther,
             'error'=>$this->error,
         ]);
     }

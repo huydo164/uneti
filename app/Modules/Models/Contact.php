@@ -86,31 +86,27 @@ class Contact extends Model{
     }
 
     public static function addData($dataInput = array()){
-
+        try {
             DB::connection()->getPdo()->beginTransaction();
-            
             $data = new Contact();
-            if (is_array($dataInput) && count($dataInput) > 0){
-                foreach ($dataInput as $k => $v){
+            if (is_array($dataInput) && count($dataInput) > 0) {
+                foreach ($dataInput as $k => $v) {
                     $data->$k = $v;
                 }
             }
-            $data->save();
-
-                
+            if ($data->save()) {
                 DB::connection()->getPdo()->commit();
-                
-                if ($data->contact_id && Memcache::CACHE_ON){
+                if($data->contact_id && Memcache::CACHE_ON){
                     Contact::removeCacheId($data->contact_id);
                 }
                 return $data->contact_id;
-            
-            
-            
+            }
             DB::connection()->getPdo()->commit();
             return false;
-
-
+        } catch (PDOException $e) {
+            DB::connection()->getPdo()->rollBack();
+            throw new PDOException();
+        }
     }
 
     public static function saveData($id = 0, $data = array()){

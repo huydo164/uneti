@@ -60,6 +60,45 @@ use App\Library\PHPDev\ThumbImg;
                                                     </div>
                                                 </div>
                                                 <div class="clearfix"></div>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Ảnh</label>
+                                                        <div class="controls">
+                                                            <a href="javascript:;"class="btn btn-primary link-button btn-sm" onclick="UploadAdmin.uploadMultipleImages(7);">Upload ảnh</a>
+                                                            <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['sv_img'])){{trim($data['sv_img'])}}@endif">
+                                                        </div>
+                                                        <!--Hien Thi Anh-->
+                                                        <ul id="sys_drag_sort" class="ul_drag_sort">
+                                                            @if(isset($news_image_other))
+                                                                @foreach($news_image_other as $k=>$v)
+                                                                    <li id="sys_div_img_other_{{$k}}">
+                                                                        <div class="div_img_upload">
+                                                                            <img src="{{$v['src_img_other']}}" height="80">
+                                                                            <input type="hidden" id="sys_img_other_{{$k}}" name="img_other[]" value="{{$v['img_other']}}" class="sys_img_other">
+                                                                            <div class='clear'></div>
+                                                                            <input type="radio" id="checked_image_{{$k}}" name="checked_image" value="{{$k}}"
+                                                                                   @if(isset($news_image) && ($news_image == $v['img_other'])) checked="checked" @endif
+                                                                                   onclick="UploadAdmin.checkedImage('{{$v['img_other']}}','{{$k}}');">
+                                                                            <label for="checked_image_{{$k}}" style='font-weight:normal'>Ảnh đại diện</label>
+                                                                            <br/>
+                                                                            <a href="javascript:void(0);" id="sys_delete_img_other_{{$k}}" onclick="UploadAdmin.removeImage('{{$k}}', '{{$data['sinh_vien_id']}}', '{{$v['img_other']}}', '7');">Xóa ảnh</a>
+                                                                            <span style="display: none"><b>{{$k}}</b></span>
+                                                                        </div>
+                                                                    </li>
+                                                                    @if(isset($news_image) && $news_image == $v['img_other'])
+                                                                        <input type="hidden" id="sys_key_image_primary" name="sys_key_image_primary" value="{{$k}}">
+                                                                    @endif
+                                                                @endforeach
+                                                            @else
+                                                                <input type="hidden" id="sys_key_image_primary" name="sys_key_image_primary" value="-1">
+                                                            @endif
+
+                                                        </ul>
+                                                        <input name="list1SortOrder" id ='list1SortOrder' type="hidden" />
+                                                        <!--Hien Thi Anh-->
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Tên sinh viên<span>*</span></label>
@@ -234,7 +273,33 @@ use App\Library\PHPDev\ThumbImg;
             </div>
         </div>
     </div>
+    <!--Popup Upload Img-->
+    <div class="modal fade" id="sys_PopupUploadImgOtherPro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Upload ảnh</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="uploadImage" method="post" action="#" enctype="multipart/form-data">
+                        <div class="form_group">
+                            <div id="sys_show_button_upload">
+                                <div id="sys_mulitplefileuploader" class="btn btn-primary">Upload ảnh</div>
+                            </div>
+                            <div id="status"></div>
 
+                            <div class="clearfix"></div>
+                            <div class="clearfix" style='margin: 5px 10px; width:100%;'>
+                                <div id="div_image"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Popup Upload Img-->
     <script type="text/javascript">
         jQuery(document).ready(function($){
             jQuery('.date').datetimepicker({
