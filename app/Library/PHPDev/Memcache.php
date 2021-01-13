@@ -49,4 +49,6 @@ class Memcache{
     const CACHE_CONTACT_ID = 'cache_contact_id_';
     //Sinh viên
     const CACHE_SINHVIEN_ID = 'cache_sinhvien_id_';
+    //ngành
+    const CACHE_BRANCH_ID = 'cache_branch_id_';
 }

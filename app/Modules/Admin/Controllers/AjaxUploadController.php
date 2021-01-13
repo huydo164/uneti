@@ -12,6 +12,7 @@ use App\Modules\Models\Banner;
 use App\Modules\Models\Category;
 use App\Library\PHPDev\ThumbImg;
 use App\Library\PHPDev\Upload;
+use App\Modules\Models\Sinhvien;
 use App\Modules\Models\Statics;
 use Illuminate\Support\Facades\Request;
 use App\Modules\Models\Info;
@@ -65,6 +66,9 @@ class AjaxUploadController extends BaseAdminController
                 break;
             case 6: //Img Statics
                 $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_STATICS, $type);
+                break;
+            case 7: //Img Sinh viên
+                $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_SINH_VIEN, $type);
                 break;
             default:
                 break;
@@ -217,6 +221,11 @@ class AjaxUploadController extends BaseAdminController
                         $new_row['statics_status'] = CGlobal::IMAGE_ERROR;
                         $item_id = Statics::addData($new_row);
                         break;
+                    case 7://Img Sinh viên
+                        $new_row['sv_created'] = time();
+                        $new_row['sv_status'] = CGlobal::IMAGE_ERROR;
+                        $item_id = Sinhvien::addData($new_row);
+                        break;
                     default:
                         break;
                 }
@@ -265,7 +274,28 @@ class AjaxUploadController extends BaseAdminController
                                 }
                                 $url_thumb = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_STATICS, $item_id, $file_name, $x, $y, '', true, true);
                                 $tmpImg['src'] = $url_thumb;
-                               
+                            }
+                            break;
+                        case 7: //Img Sinh viên
+                            $result = Sinhvien::getById($item_id);
+                            if ($result != ''){
+                                $aryTempImages = ($result->sv_img_other != '') ? unserialize($result->sv_img_other) : array();
+                                $aryTempImages[] = $file_name;
+                                $new_row['sv_img_other'] = serialize($aryTempImages);
+                                Sinhvien::updateData($item_id,$new_row);
+                                $path_image = $file_name;
+                                $arrSize = CGlobal::$arrSizeImg;
+                                if (isset($arrSize['4'])) {
+                                    $size = explode('x', $arrSize['4']);
+                                    if (!empty($size)) {
+                                        $x = (int)$size[0];
+                                        $y = (int)$size[1];
+                                    } else {
+                                        $x = $y = 400;
+                                    }
+                                }
+                                $url_thumb = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_SINH_VIEN, $item_id, $file_name, $x, $y, '', true, true);
+                                $tmpImg['src'] = $url_thumb;
                             }
                             break;
                         default:
@@ -313,8 +343,8 @@ class AjaxUploadController extends BaseAdminController
                     }
                 }
                 break;
-            case 7: //Img Training
-                $folder_image = 'uploads/' . CGlobal::FOLDER_TRAINING;
+            case 7: //Img Sinh viên
+                $folder_image = 'uploads/' . CGlobal::FOLDER_SINH_VIEN;
 
                 if ($id > 0 && $nameImage != '' && $folder_image != '') {
                     $delete_action = $this->delete_image_item($id, $nameImage, $folder_image, $type);
@@ -348,6 +378,12 @@ class AjaxUploadController extends BaseAdminController
                     $aryImages = unserialize($result->statics_image_other);
                 }
                 break;
+            case 7: //Img Sinh viên
+                $result = Sinhvien::getById($id);
+                if ($result != null) {
+                    $aryImages = unserialize($result->sv_img_other);
+                }
+                break;
             default:
                 $folder_image = '';
                 break;
@@ -370,6 +406,10 @@ class AjaxUploadController extends BaseAdminController
                         case 6: //Img Statics
                             $new_row['statics_image_other'] = $aryImages;
                             Statics::updateData($id, $new_row);
+                            break;
+                        case 7: //Img Sinh viên
+                            $new_row['sv_img_other'] = $aryImages;
+                            Sinhvien::updateData($id, $new_row);
                             break;
                         default:
                             $folder_image = '';
@@ -427,8 +467,8 @@ class AjaxUploadController extends BaseAdminController
                 case 6: //Img Statics
                     $aryData = $this->getImgContent($id_hiden, CGlobal::FOLDER_STATICS, $type);
                     break;
-                case 7: //Img Training
-                    $aryData = $this->getImgContent($id_hiden, CGlobal::FOLDER_TRAINING, $type);
+                case 7: //Img Sinh viên
+                    $aryData = $this->getImgContent($id_hiden, CGlobal::FOLDER_SINH_VIEN, $type);
                     break;
                 default:
                     break;

@@ -62,6 +62,45 @@ use App\Library\PHPDev\ThumbImg;
                                                     </div>
                                                 </div>
                                                 <div class="clearfix"></div>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Ảnh</label>
+                                                        <div class="controls">
+                                                            <a href="javascript:;"class="btn btn-primary link-button btn-sm" onclick="UploadAdmin.uploadMultipleImages(7);">Upload ảnh</a>
+                                                            <input name="image_primary" type="hidden" id="image_primary" value="<?php if(isset($data['sv_img'])): ?><?php echo e(trim($data['sv_img'])); ?><?php endif; ?>">
+                                                        </div>
+                                                        <!--Hien Thi Anh-->
+                                                        <ul id="sys_drag_sort" class="ul_drag_sort">
+                                                            <?php if(isset($news_image_other)): ?>
+                                                                <?php $__currentLoopData = $news_image_other; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k=>$v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <li id="sys_div_img_other_<?php echo e($k); ?>">
+                                                                        <div class="div_img_upload">
+                                                                            <img src="<?php echo e($v['src_img_other']); ?>" height="80">
+                                                                            <input type="hidden" id="sys_img_other_<?php echo e($k); ?>" name="img_other[]" value="<?php echo e($v['img_other']); ?>" class="sys_img_other">
+                                                                            <div class='clear'></div>
+                                                                            <input type="radio" id="checked_image_<?php echo e($k); ?>" name="checked_image" value="<?php echo e($k); ?>"
+                                                                                   <?php if(isset($news_image) && ($news_image == $v['img_other'])): ?> checked="checked" <?php endif; ?>
+                                                                                   onclick="UploadAdmin.checkedImage('<?php echo e($v['img_other']); ?>','<?php echo e($k); ?>');">
+                                                                            <label for="checked_image_<?php echo e($k); ?>" style='font-weight:normal'>Ảnh đại diện</label>
+                                                                            <br/>
+                                                                            <a href="javascript:void(0);" id="sys_delete_img_other_<?php echo e($k); ?>" onclick="UploadAdmin.removeImage('<?php echo e($k); ?>', '<?php echo e($data['sinh_vien_id']); ?>', '<?php echo e($v['img_other']); ?>', '7');">Xóa ảnh</a>
+                                                                            <span style="display: none"><b><?php echo e($k); ?></b></span>
+                                                                        </div>
+                                                                    </li>
+                                                                    <?php if(isset($news_image) && $news_image == $v['img_other']): ?>
+                                                                        <input type="hidden" id="sys_key_image_primary" name="sys_key_image_primary" value="<?php echo e($k); ?>">
+                                                                    <?php endif; ?>
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php else: ?>
+                                                                <input type="hidden" id="sys_key_image_primary" name="sys_key_image_primary" value="-1">
+                                                            <?php endif; ?>
+
+                                                        </ul>
+                                                        <input name="list1SortOrder" id ='list1SortOrder' type="hidden" />
+                                                        <!--Hien Thi Anh-->
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Tên sinh viên<span>*</span></label>
@@ -240,7 +279,33 @@ use App\Library\PHPDev\ThumbImg;
             </div>
         </div>
     </div>
+    <!--Popup Upload Img-->
+    <div class="modal fade" id="sys_PopupUploadImgOtherPro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Upload ảnh</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="uploadImage" method="post" action="#" enctype="multipart/form-data">
+                        <div class="form_group">
+                            <div id="sys_show_button_upload">
+                                <div id="sys_mulitplefileuploader" class="btn btn-primary">Upload ảnh</div>
+                            </div>
+                            <div id="status"></div>
 
+                            <div class="clearfix"></div>
+                            <div class="clearfix" style='margin: 5px 10px; width:100%;'>
+                                <div id="div_image"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Popup Upload Img-->
     <script type="text/javascript">
         jQuery(document).ready(function($){
             jQuery('.date').datetimepicker({

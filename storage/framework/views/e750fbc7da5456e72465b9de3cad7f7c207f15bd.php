@@ -21,10 +21,19 @@ use App\Library\PHPDev\ThumbImg;
                     </div>
                 <?php endif; ?>
                 <div class="info-user">
-                    <h4>Họ và tên: <?php echo e(isset($data['ten_sv']) ? $data['ten_sv'] : ''); ?></h4>
-                    <p> Mã sinh viên: <?php echo e(isset($data['msv']) ? $data['msv'] : ''); ?></p>
-                    <p>Ngành: <?php echo e(isset($data['nganh']) ? $data['nganh'] : ''); ?></p>
-                    <p>Lớp: <?php echo e(isset($data['lop']) ? $data['lop'] : ''); ?></p>
+                    <?php if(isset($data) && $data != ''): ?>
+                        <div class="img-user">
+                            <img src="<?php echo e(ThumbImg::thumbBaseNormal(CGlobal::FOLDER_SINH_VIEN, $data['sinh_vien_id'], $data['sv_img'], 400, 0 , '', true, true)); ?>" alt="" title="<?php echo e($data['ten_sv']); ?>">
+                        </div>
+                        <div class="name-user dropdown-toggle">
+                            <?php echo e($data['ten_sv']); ?>
+
+                            <div class="dropdown-show">
+                                <a href="">Thông tin cá nhân</a>
+                                <a href="<?php echo e(route('mLogout')); ?>">Đăng xuất</a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -32,13 +41,10 @@ use App\Library\PHPDev\ThumbImg;
     <section id="menu">
         <div class="container">
             <ul>
-                <li><a href="">Đồ án</a></li>
+                <li><a href="" title="">Đồ án</a></li>
                 <li><a href="">Lịch học</a></li>
                 <li><a href="">Biểu mẫu</a></li>
                 <li><a href="">Hỏi đáp</a></li>
-                <li>
-                    <a href="<?php echo e(route('mLogout')); ?>">Thoát</a>
-                </li>
             </ul>
         </div>
     </section>

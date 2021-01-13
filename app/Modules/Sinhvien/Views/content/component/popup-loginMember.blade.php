@@ -11,8 +11,8 @@ use App\Library\PHPDev\FuncLib;
                 <div class="contentLogin">
                     <form id="formlogin" method="POST" class="formLoginMember box-form-register" name="txtForm" action="{{route('mPostLogin')}}" >
                         <div class="form-group">
-                            <label>Tên đăng nhập:</label>
-                            <input type="text" name="ten_sv" class="form-control txtUser" placeholder="Tên đăng nhập" >
+                            <label>Mã sinh viên:</label>
+                            <input type="text" name="msv" class="form-control txtUser" placeholder="Tên đăng nhập" >
                         </div>
                         <div class="form-group ">
                             <label>Mật khẩu</label>

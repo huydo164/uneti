@@ -60,11 +60,6 @@ use App\Library\PHPDev\ThumbImg;
                     <?php endif; ?>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <?php endif; ?>
-           <?php if(isset($member) && !empty($member)): ?>
-            <li>
-                <a href="<?php echo e(route('mLogout')); ?>">Thoat</a>
-            </li>
-             <?php endif; ?>
         </ul>
     </div>
 </section>

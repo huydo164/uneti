@@ -45,6 +45,11 @@ Route::group(['middleware' => ['web', 'checkPermission'], 'prefix' => 'admin', '
     Route::get('sinh-vien/edit/{id?}', array('as' => 'admin.sinh_vien_edit', 'uses' => 'SinhvienController@getItem', 'permission_name' => 'Chi tiết sinh viên'))->where('id', '[0-9]+');
     Route::post('sinh-vien/edit/{id?}', array('as' => 'admin.sinh_vien_edit', 'uses' => 'SinhvienController@postItem', 'permission_name' => 'Sửa sinh viên'))->where('id', '[0-9]+');
     Route::post('sinh-vien/delete', array('as' => 'admin.sinh_vien_delete', 'uses' => 'SinhvienController@delete', 'permission_name' => 'Xóa sinh viên'));
+
+    Route::get('branch', array('as' => 'admin.branch', 'uses' => 'BranchController@listView', 'permission_name' => 'Danh sách ngành', 'display_menu' => 1, 'display_icon_sub' => 'fa fa-globe'));
+    Route::get('branch/edit/{id?}', array('as' => 'admin.branch_edit', 'uses' => 'BranchController@getItem', 'permission_name' => 'Chi tiết ngành'))->where('id', '[0-9]+');
+    Route::post('branch/edit/{id?}', array('as' => 'admin.branch_edit', 'uses' => 'BranchController@postItem', 'permission_name' => 'Sửa ngành'))->where('id', '[0-9]+');
+    Route::post('branch/delete', array('as' => 'admin.branch_delete', 'uses' => 'BranchController@delete', 'permission_name' => 'Xóa ngành'));
 });
 
 Route::group(['middleware' => ['web', 'checkPermission'], 'prefix' => 'admin', 'namespace' => $namespace , 'group'=>'5','group_name'=>'Hệ thống', 'display_icon'=>'fa fa-tag'], function () {

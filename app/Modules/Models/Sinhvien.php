@@ -21,11 +21,12 @@ class Sinhvien extends Model{
 
     protected $fillable = [
         'sinh_vien_id', 'ten_sv', 'password', 'truong_hoc', 'msv', 'ngaysinh', 'gioi_tinh', 'he_dao_tao', 'sv_status', 'so_cmt', 'sv_description',
-        'noi_o', 'email_truong', 'email_ca_nhan', 'dien_thoai', 'lop', 'khoa', 'nganh', 'quoc_gia', 'quan_huyen', 'xa_phuong', 'sv_focus', 'sv_order_no', 'sv_created', 'sv_re_password'
+        'noi_o', 'email_truong', 'email_ca_nhan', 'dien_thoai', 'lop', 'khoa', 'nganh', 'quoc_gia', 'quan_huyen', 'xa_phuong', 'sv_focus', 'sv_order_no', 'sv_created', 'sv_re_password',
+        'sv_img', 'sv_img_other'
     ];
 
-    public static function getMemberByEmail($name){
-        $result = Sinhvien::where('ten_sv', $name)->first();
+    public static function getMemberByMSV($msv){
+        $result = Sinhvien::where('msv', $msv)->first();
         return $result;
     }
     public static function encode_password($password){
@@ -162,6 +163,19 @@ class Sinhvien extends Model{
             DB::connection()->getPdo()->beginTransaction();
             $data = Sinhvien::find($id);
             if($data != null){
+                //Remove Img
+                $sv_img_other = ($data->sv_img_other != '') ? unserialize($data->sv_img_other) : array();
+                if(is_array($sv_img_other) && !empty($sv_img_other)){
+                    $path = Config::get('config.DIR_ROOT').'uploads/'.CGlobal::FOLDER_SINH_VIEN.'/'.$id;
+                    foreach($sv_img_other as $v){
+                        if(is_file($path.'/'.$v)){
+                            @unlink($path.'/'.$v);
+                        }
+                    }
+                    if(is_dir($path)) {
+                        @rmdir($path);
+                    }
+                }
                 $data->delete();
                 if(isset($data->sinh_vien_id) && $data->sinh_vien_id > 0){
                     self::removeCacheId($data->sinh_vien_id);
