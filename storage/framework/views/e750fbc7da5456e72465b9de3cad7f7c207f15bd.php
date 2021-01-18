@@ -21,16 +21,16 @@ use App\Library\PHPDev\ThumbImg;
                     </div>
                 <?php endif; ?>
                 <div class="info-user">
-                    <?php if(isset($data) && $data != ''): ?>
+                    <?php if(isset($member) && !empty($member)): ?>
                         <div class="img-user">
-                            <img src="<?php echo e(ThumbImg::thumbBaseNormal(CGlobal::FOLDER_SINH_VIEN, $data['sinh_vien_id'], $data['sv_img'], 400, 0 , '', true, true)); ?>" alt="" title="<?php echo e($data['ten_sv']); ?>">
+                            <img src="<?php echo e(ThumbImg::thumbBaseNormal(CGlobal::FOLDER_SINH_VIEN, $member['sinh_vien_id'], $member['sv_img'], 400, 0 , '', true, true)); ?>" alt="" title="<?php echo e($member['ten_sv']); ?>">
                         </div>
                         <div class="name-user dropdown-toggle">
-                            <?php echo e($data['ten_sv']); ?>
+                            <?php echo e($member['ten_sv']); ?>
 
                             <div class="dropdown-show">
                                 <a href="">Thông tin cá nhân</a>
-                                <a href="<?php echo e(route('mLogout')); ?>">Đăng xuất</a>
+                                <a href="<?php echo e(URL::route('mLogout')); ?>">Đăng xuất</a>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -41,9 +41,10 @@ use App\Library\PHPDev\ThumbImg;
     <section id="menu">
         <div class="container">
             <ul>
+                <li><a href="<?php echo e(FuncLib::getBaseURL()); ?>member/indexSinhVien" title="Trang chủ">Trang chủ</a></li>
                 <li><a href="" title="">Đồ án</a></li>
                 <li><a href="">Lịch học</a></li>
-                <li><a href="">Biểu mẫu</a></li>
+                <li><a href="<?php echo e(FuncLib::getBaseUrl()); ?>member/indexSinhVien/bieu-mau">Biểu mẫu</a></li>
                 <li><a href="">Hỏi đáp</a></li>
             </ul>
         </div>

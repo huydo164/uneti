@@ -51,4 +51,6 @@ class Memcache{
     const CACHE_SINHVIEN_ID = 'cache_sinhvien_id_';
     //ngành
     const CACHE_BRANCH_ID = 'cache_branch_id_';
+    //Biểu mẫu
+    const CACHE_FORM_ID = 'cache_form_id_';
 }

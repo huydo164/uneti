@@ -11,6 +11,7 @@ use App\Library\PHPDev\Pagging;
 use App\Library\PHPDev\ThumbImg;
 use App\Library\PHPDev\Utility;
 use App\Library\PHPDev\ValidForm;
+use App\Modules\Models\Branch;
 use App\Modules\Models\Sinhvien;
 use App\Modules\Models\Statics;
 use App\Modules\Models\Trash;
@@ -94,6 +95,10 @@ class SinhvienController extends BaseAdminController{
         $sv_img = '';
         $sv_img_other = array();
 
+        $branch = Branch::getAllBranch();
+        $branch = Utility::arrByField($branch, 'branch_name', 'branch_id');
+
+
         if($id > 0) {
             $data = Sinhvien::getById($id);
             if($data != null){
@@ -121,6 +126,7 @@ class SinhvienController extends BaseAdminController{
         $optionGender = Utility::getOption($this->arrGender, isset($data['gioi_tinh']) ? $data['gioi_tinh'] : -1);
         $optionTrainSystem = Utility::getOption($this->arrTrainSystem, isset($data['he_dao_tao']) ? $data['he_dao_tao'] : -1);
         $optionCareer = Utility::getOption($this->arrCareer, isset($data['nganh']) ? $data['nganh'] : -1);
+        $optionBranch = Utility::getOption($branch, isset($data['branch_id']) ? $data['branch_id'] : -1);
 
         return view('Admin::sinhvien.add',[
             'id'=>$id,
@@ -133,6 +139,7 @@ class SinhvienController extends BaseAdminController{
             'optionCareer' => $optionCareer,
             'news_image'=>$sv_img,
             'news_image_other'=>$sv_img_other,
+            'optionBranch'=>$optionBranch,
             'error'=>$this->error,
         ]);
     }
@@ -142,6 +149,9 @@ class SinhvienController extends BaseAdminController{
 
         $id_hiden = (int)Request::get('id_hiden', 0);
         $data = array();
+
+        $branch = Branch::getAllBranch();
+        $branch = Utility::arrByField($branch, 'branch_name', 'branch_id');
 
         $dataSave = array(
             'ten_sv'=>array('value'=>addslashes(Request::get('ten_sv')), 'require'=>1, 'messages'=>'Tên không được trống!'),
@@ -160,7 +170,7 @@ class SinhvienController extends BaseAdminController{
             'dien_thoai' => array('value' => addslashes(Request::get('dien_thoai')), 'require' => 0, 'messages' => 'Số điện thoại không được trống'),
             'lop' => array('value' => addslashes(Request::get('lop')), 'require' => 0),
             'khoa' =>array('value' => addslashes(Request::get('khoa')), 'require' => 0) ,
-            'nganh' => array('value' => addslashes(Request::get('nganh')), 'require' => 0),
+            'branch_id' => array('value' => addslashes(Request::get('branch_id')), 'require' => 0),
             'quoc_gia' => array('value' => addslashes(Request::get('quoc_gia')), 'require' => 0, 'Quốc gia không được trống'),
             'quan_huyen' => array('value' => addslashes(Request::get('quan_huyen')), 'require' => 0, 'Quận huyện không được trống'),
             'xa_phuong' => array('value' => addslashes(Request::get('xa_phuong')), 'require' => 0),
@@ -174,14 +184,12 @@ class SinhvienController extends BaseAdminController{
         $dateOfBirth = $dataSave['ngaysinh']['value'];
         $dateOfBirth = ($dateOfBirth != '') ? CDate::convertDate($dateOfBirth) : 0;
         $dataSave['ngaysinh']['value'] = ($dateOfBirth > 0)? date('Y-m-d', $dateOfBirth) : null;
-
-        //FuncLib::bug($dataSave['ngaysinh']);
-       //end add time
+        //end add time
 
         //Main Img
         $image_primary = addslashes(Request::get('image_primary', ''));
         //Other Img
-        $arrInputImgOther = array();
+        $arrInputImgOther = $news_image_other = array();
         $getImgOther = Request::get('img_other',array());
         if(!empty($getImgOther)){
             foreach($getImgOther as $k=>$val){
@@ -196,18 +204,48 @@ class SinhvienController extends BaseAdminController{
             $dataSave['sv_img_other']['value'] = serialize($arrInputImgOther);
         }
 
-        if($id > 0){
-            unset($dataSave['sv_created']);
-        }
+        //Check validate password
+        $password = $dataSave['password']['value'];
+        $rePassword = $dataSave['sv_re_password']['value'];
 
         $this->error = ValidForm::validInputData($dataSave);
+        if($id > 0){
+            unset($dataSave['sv_created']);
+
+            if ($password != '' && $password != $rePassword){
+                $this->error.= 'Mật khẩu không khớp';
+            }
+
+            $dataSave['password']['value'] = Sinhvien::encode_password($password);
+        }
+        else{
+            if ($password == ''){
+                $this->error.= 'Mật khẩu không được trống';
+            }
+            elseif ($password != '' && $password != $rePassword){
+                $this->error.= 'Mật khẩu không khớp';
+            }
+            $dataSave['password']['value'] = md5(md5('password'));
+        }
+
         if($this->error == ''){
+
             $id = ($id == 0) ? $id_hiden : $id;
             Sinhvien::saveData($id, $dataSave);
             return Redirect::route('admin.sinh_vien');
         }else{
             foreach($dataSave as $key=>$val){
                 $data[$key] = $val['value'];
+                if($id > 0 && $key== 'sv_img_other'){
+                    $dataGet = Sinhvien::getById($id);
+                    if($dataGet->sv_img_other && $dataGet->sv_img_other != ''){
+                        $sv_img_other = unserialize($dataGet->sv_img_other);
+                        foreach ($sv_img_other as $_k=>$v){
+                            $url_thumb = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_SINH_VIEN, $id, $v, 400, 400, '', true, true);
+                            $news_image_other[] = array('img_other'=>$v,'src_img_other'=>$url_thumb);
+                        }
+                    }
+                }
             }
         }
 
@@ -217,7 +255,9 @@ class SinhvienController extends BaseAdminController{
         $optionGender = Utility::getOption($this->arrGender, isset($data['gioi_tinh']) ? $data['gioi_tinh'] : -1);
         $optionTrainSystem = Utility::getOption($this->arrTrainSystem, isset($data['he_dao_tao']) ? $data['he_dao_tao'] : -1);
         $optionCareer = Utility::getOption($this->arrCareer, isset($data['nganh']) ? $data['nganh'] : -1);
+        $optionBranch = Utility::getOption($branch, isset($data['branch_id']) ? $data['branch_id'] : -1);
 
+        //FuncLib::bug($arrInputImgOther);
         return view('Admin::sinhvien.add',[
             'id'=>$id,
             'data'=>$data,
@@ -228,7 +268,8 @@ class SinhvienController extends BaseAdminController{
             'optionTrainSystem' => $optionTrainSystem,
             'optionCareer' => $optionCareer,
             'news_image'=>$image_primary,
-            'news_image_other'=>$arrInputImgOther,
+            'news_image_other'=>$news_image_other,
+            'optionBranch'=>$optionBranch,
             'error'=>$this->error,
         ]);
     }

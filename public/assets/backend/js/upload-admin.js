@@ -103,6 +103,51 @@
         jQuery("#sys_mulitplefileuploader").uploadFile(settings);
     },
 
+    uploadForm:function(type){
+        jQuery('#sys_PopupUploadFormOtherPro').modal('show');
+        jQuery('.ajax-upload-dragdrop').remove();
+        var urlAjaxUpload = BASE_URL+'ajax/upload?act=upload_image';
+        var id_hiden = document.getElementById('id_hiden').value;
+        var _token = $('input[name="_token"]').val();
+        var settings = {
+            url: urlAjaxUpload,
+            method: "POST",
+            allowedTypes:"docx,doc",
+            fileName: "multipleFile",
+            formData: {id: id_hiden, type: type, _token: _token},
+            multiple: false,
+            onSubmit:function(){
+                jQuery( "#sys_show_button_upload_form").hide();
+                jQuery("#status_form").html("<span class='green'>Đang upload...</span>");
+            },
+            onSuccess:function(files,xhr,data){
+                dataResult = JSON.parse(xhr);
+                if(dataResult.intIsOK === 1){
+                    //gan lai id item cho id hiden: dung cho them moi, sua item
+                    jQuery('#id_hiden').val(dataResult.id_item);
+                    jQuery( "#sys_show_button_upload_form").show();
+
+                    //show Video
+                    var checked_img_pro = "<div class='clear'></div><input type='radio' id='checked_image_"+dataResult.info.id_key+"' name='checked_image' value='"+dataResult.info.id_key+"' onclick='UploadAdmin.checkedImage(\""+dataResult.info.name_form+"\",\"" + dataResult.info.id_key + "\")'><label for='checked_image_"+dataResult.info.id_key+"' style='font-weight:normal'>Biểu mẫu chính</label><br/>";
+                    var html = "<a href='" + dataResult.info.src + "'>"+dataResult.info.name_form+"</a>";
+                    var delete_form = "<a href='javascript:void(0);' class='removeForm' onclick='UploadAdmin.removeForm(\""+dataResult.id_item+"\",\""+dataResult.info.name_form+"\",\""+type+"\")' >Xóa Form</a>";
+                    html += checked_img_pro
+                    html += delete_form
+                    jQuery('#sys_show_form').html(html);
+
+                    //thanh cong
+                    jQuery("#status_form").html("<span class='green'>Upload is success</span>");
+                    setTimeout( "jQuery('.ajax-file-upload-statusbar').hide();",2000 );
+                    setTimeout( "jQuery('#stadFormOtherPro').modal('hide');",2500 );
+                }
+                setTimeout( "jQuery('#sys_PopupUploatus_form').hide();",2000 );
+            },
+            onError: function(files,status,errMsg){
+                jQuery("#status").html("<span class='red'>Upload is Failed</span>");
+            }
+        }
+        jQuery("#sys_mulitplefileuploaderForm").uploadFile(settings);
+    },
     checkedImage: function(nameImage,key){
         if (confirm('Bạn có muốn chọn ảnh này làm ảnh đại diện?')) {
             jQuery('#image_primary').val(nameImage);
@@ -153,6 +198,29 @@
         UploadAdmin.getInsertImageContent(type, 'off');
     },
 
+    removeForm: function(id,nameForm,type){
+        if (confirm('Bạn có muốn xóa Form này?')){
+            var urlAjaxUpload = BASE_URL+'ajax/upload?act=remove_form';
+            var _token = $('input[name="_token"]').val();
+            jQuery.ajax({
+                type: "POST",
+                url: urlAjaxUpload,
+                data:{ id: id, nameForm: nameForm , type:type, _token: _token},
+                responseType: 'json',
+                success: function (data) {
+                    dataResult = JSON.parse(data);
+                    if (dataResult.intIsOK === 1){
+                        $('#sys_show_form').hide();
+                    }else{
+                        jQuery('#sys_msg_return').html(data.msg);
+                    }
+                },
+                error: function () {
+                    alert('lỗi')
+                }
+            })
+        }
+    },
     getInsertImageContent: function(type, popup) {
         if(popup == 'open'){
             jQuery('#sys_PopupImgOtherInsertContent').modal('show');

@@ -30,10 +30,13 @@ class LoginSinhVienController extends Controller{
                         $error = 'Tài khoản đang bị khóa!';
                     }elseif($member->sv_status == 1){
                         $encode_password = Sinhvien::encode_password($pass);
+
                         if($member->password == $encode_password){
                             $data = array(
                                 'sinh_vien_id' => $member->sinh_vien_id,
-                                'msv' => $member->msv
+                                'msv' => $member->msv,
+                                'ten_sv' => $member->ten_sv,
+                                'sv_img' => $member->sv_img,
                             );
 
                             Session::put('member', $data, 60*24);

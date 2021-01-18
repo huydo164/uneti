@@ -68,6 +68,7 @@ class CGlobal{
     const FOLDER_CONTACT = 'contact';
     const FOLDER_SINH_VIEN = 'sinh_vien';
     const FOLDER_BRANCH = 'branch';
+    const FOLDER_FORM = 'form';
 
     //Api Key Facebook
     const facebook_app_id = '';

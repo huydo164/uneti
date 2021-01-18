@@ -43,7 +43,6 @@ img{
 #menu ul li{
     flex-basis: 10%;
     text-align: center;
-    padding: 10px 0;
     text-transform: uppercase;
     border-left: 1px solid #ccc;
 }
@@ -56,6 +55,7 @@ img{
 #menu ul li a{
     color: #ffffff;
     display: block;
+    padding: 10px 0;
 }
 
 /*=============== content ==================*/
@@ -256,7 +256,6 @@ img{
     display: flex;
     align-items: center;
     justify-content: right;
-    cursor: pointer;
 }
 .img-user{
     flex-basis: 16%;
@@ -264,6 +263,7 @@ img{
 }
 .name-user{
     position: relative;
+    cursor: pointer;
 }
 .dropdown-show{
     display: none;
@@ -296,4 +296,118 @@ img{
     border-left: 8px solid transparent;
     content: '';
     right: 0;
+}
+
+/*========= index member ===========*/
+#member-index{
+    padding-top: 40px;
+}
+#member-index .title-news{
+    font-weight: bold;
+    position: relative;
+    margin-bottom: 30px;
+}
+#member-index .title-news::before{
+    display: block;
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 14%;
+    background: #0a53be;
+    bottom: -5px;
+}
+#member-index .total{
+    background: red;
+    border-radius: 50%;
+    font-size: 15px;
+    padding: 2px 7px;
+    position: relative;
+    bottom: 12px;
+    color: #fff;
+}
+#member-index .title-detail{
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #000;
+}
+#member-index .title-detail:hover{
+    color: #ff7300;
+}
+#member-index .title-detail p{
+    height: 40px;
+}
+.date{
+    padding: 20px 0;
+    color: #e6002b;
+}
+.list-notification{
+    padding-bottom: 20px;
+}
+.list-notification a{
+    color: #667580;
+    font-weight: bold;
+}
+.list-notification a:hover, .list-notification i{
+    color: #ff7300;
+}
+.img-detail{
+    width: 100%;
+}
+.title-dvsv{
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+#member-index .content-box2{
+    margin: 28px 0 0px 0;
+    height: auto;
+    padding: 0;
+}
+#member-index .content-box2 h4{
+    text-align: center;
+}
+
+/*=========== page detail ==============*/
+.box-detail, .more-news{
+    padding-top: 40px;
+}
+.box-detail h4{
+    font-weight: bold;
+}
+.box-detail img{
+    width: 100%;
+}
+.more-news h5{
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+.title-new{
+    display: block;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+}
+/*============ page biểu mẫu =============*/
+#form .breadcrumb .active i, #pageDetail .breadcrumb .active i{
+    margin: 0px 8px;
+    font-size: 13px;
+}
+.breadcrumbs{
+    padding-top: 20px;
+}
+.box-form h3{
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+.box-form ul{
+    padding-left: 0;
+}
+.box-form ul li{
+    padding-bottom: 10px;
+}
+.box-form ul li a{
+    font-size: 18px;
+    transition: all .1s ease-in;
+}
+.box-form ul li a span{
+    color: #e74c3c;
+    font-style: italic;
 }

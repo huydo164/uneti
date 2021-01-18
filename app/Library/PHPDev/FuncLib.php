@@ -335,7 +335,7 @@ class FuncLib{
     }
 
     //Buid Link Statics Detail
-    static function buildLinkDetailStatic($id = 0, $statics_title = 'dich-vu'){
+    static function buildLinkDetailStatic($id = 0, $statics_title = ''){
         if ($id > 0) {
             return URL::route('site.pageStaticsDetail', array('id' => $id, 'name' => strtolower(FuncLib::safeTitle($statics_title))));
         }

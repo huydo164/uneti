@@ -168,6 +168,7 @@ class StaticsController extends BaseAdminController{
             $dataSave['statics_image']['value'] = ($image_primary != '') ? $image_primary : $arrInputImgOther[0];
             $dataSave['statics_image_other']['value'] = serialize($arrInputImgOther);
         }
+
         if($id > 0){
             unset($dataSave['statics_created']);
         }

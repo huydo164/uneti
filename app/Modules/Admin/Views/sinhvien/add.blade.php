@@ -81,7 +81,7 @@ use App\Library\PHPDev\ThumbImg;
                                                                                    onclick="UploadAdmin.checkedImage('{{$v['img_other']}}','{{$k}}');">
                                                                             <label for="checked_image_{{$k}}" style='font-weight:normal'>Ảnh đại diện</label>
                                                                             <br/>
-                                                                            <a href="javascript:void(0);" id="sys_delete_img_other_{{$k}}" onclick="UploadAdmin.removeImage('{{$k}}', '{{$data['sinh_vien_id']}}', '{{$v['img_other']}}', '7');">Xóa ảnh</a>
+                                                                            <a href="javascript:void(0);" id="sys_delete_img_other_{{$k}}" onclick="UploadAdmin.removeImage('{{$k}}', '{{$id}}', '{{$v['img_other']}}', '7');">Xóa ảnh</a>
                                                                             <span style="display: none"><b>{{$k}}</b></span>
                                                                         </div>
                                                                     </li>
@@ -116,7 +116,7 @@ use App\Library\PHPDev\ThumbImg;
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Mật khẩu<span>*</span></label>
-                                                        <input type="password" class="form-control input-sm" name="password" value="@if(isset($data['password'])){{$data['password']}}@endif">
+                                                        <input type="password" class="form-control input-sm" name="password">
                                                     </div>
                                                 </div>
                                                 <div class="clearfix"></div>
@@ -188,7 +188,9 @@ use App\Library\PHPDev\ThumbImg;
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Ngành <span>*</span></label>
-                                                        <input type="text" class="form-control input-sm" name="nganh" value="@if(isset($data['nganh'])){{$data['nganh']}}@endif">
+                                                        <select name="branch_id" class="form-control input-sm" id="">
+                                                            {!! $optionBranch !!}
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="clearfix"></div>

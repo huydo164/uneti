@@ -126,6 +126,12 @@ class Branch extends Model{
         }
     }
 
+    public static  function getAllBranch(){
+        $result = Branch::where('branch_status', '>', 0)->get();
+
+        return $result;
+    }
+
     public static function deleteId($id = 0){
         try {
             DB::connection()->getPdo()->beginTransaction();

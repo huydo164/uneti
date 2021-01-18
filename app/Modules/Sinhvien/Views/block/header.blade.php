@@ -19,15 +19,15 @@ use App\Library\PHPDev\ThumbImg;
                     </div>
                 @endif
                 <div class="info-user">
-                    @if(isset($data) && $data != '')
+                    @if(isset($member) && !empty($member))
                         <div class="img-user">
-                            <img src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_SINH_VIEN, $data['sinh_vien_id'], $data['sv_img'], 400, 0 , '', true, true)}}" alt="" title="{{$data['ten_sv']}}">
+                            <img src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_SINH_VIEN, $member['sinh_vien_id'], $member['sv_img'], 400, 0 , '', true, true)}}" alt="" title="{{$member['ten_sv']}}">
                         </div>
                         <div class="name-user dropdown-toggle">
-                            {{$data['ten_sv']}}
+                            {{$member['ten_sv']}}
                             <div class="dropdown-show">
                                 <a href="">Thông tin cá nhân</a>
-                                <a href="{{route('mLogout')}}">Đăng xuất</a>
+                                <a href="{{URL::route('mLogout')}}">Đăng xuất</a>
                             </div>
                         </div>
                     @endif
@@ -38,9 +38,10 @@ use App\Library\PHPDev\ThumbImg;
     <section id="menu">
         <div class="container">
             <ul>
+                <li><a href="{{ FuncLib::getBaseURL() }}member/indexSinhVien" title="Trang chủ">Trang chủ</a></li>
                 <li><a href="" title="">Đồ án</a></li>
                 <li><a href="">Lịch học</a></li>
-                <li><a href="">Biểu mẫu</a></li>
+                <li><a href="{{ FuncLib::getBaseUrl() }}member/indexSinhVien/bieu-mau">Biểu mẫu</a></li>
                 <li><a href="">Hỏi đáp</a></li>
             </ul>
         </div>

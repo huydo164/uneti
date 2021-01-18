@@ -12,8 +12,10 @@ use App\Modules\Models\Banner;
 use App\Modules\Models\Category;
 use App\Library\PHPDev\ThumbImg;
 use App\Library\PHPDev\Upload;
+use App\Modules\Models\Form;
 use App\Modules\Models\Sinhvien;
 use App\Modules\Models\Statics;
+use App\Modules\Models\Video;
 use Illuminate\Support\Facades\Request;
 use App\Modules\Models\Info;
 use App\Library\PHPDev\CGlobal;
@@ -30,6 +32,9 @@ class AjaxUploadController extends BaseAdminController
                 break;
             case 'remove_image':
                 $this->remove_image();
+                break;
+            case 'remove_form':
+                $this->remove_form();
                 break;
             case 'get_image_insert_content':
                 $this->get_image_insert_content();
@@ -69,6 +74,9 @@ class AjaxUploadController extends BaseAdminController
                 break;
             case 7: //Img Sinh viên
                 $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_SINH_VIEN, $type);
+                break;
+            case 8: //form biểu mẫu
+                $aryData = $this->uploadFormToFolder($dataImg, $id_hiden, CGlobal::FOLDER_FORM, $type);
                 break;
             default:
                 break;
@@ -310,6 +318,63 @@ class AjaxUploadController extends BaseAdminController
         }
         return $aryData;
     }
+    function uploadFormToFolder($dataImg,$id_hiden, $folder, $type){
+        $aryData = array();
+        $aryData['intIsOK'] = -1;
+        $aryData['msg'] = "Upload Form!";
+        $item_id = 0;
+
+        if (!empty($dataImg)) {
+
+            if($id_hiden == 0){
+                switch($type){
+                    case 8://biểu mẫu
+                        $new_row['form_created'] = time();
+                        $new_row['form_status'] = CGlobal::IMAGE_ERROR;
+                        $item_id = Form::addData($new_row);
+                        break;
+                    default:
+                        break;
+                }
+            }elseif($id_hiden > 0){
+                $item_id = $id_hiden;
+            }
+
+            if($item_id > 0){
+                $aryError = $tmpImg = array();
+
+                $file_name = Upload::uploadFile('multipleFile',
+                    $_file_ext = 'docx,doc',
+                    $_max_file_size = 100*1024*1024*1080,
+                    $_folder = $folder.'/'.$item_id,
+                    $type_json=0);
+
+                if ($file_name != '' && empty($aryError)){
+
+                    $tmpImg['name_form'] = $file_name;
+                    $tmpImg['id_key'] = rand(10000, 99999);
+
+                    switch($type){
+                        case 8://Biểu mẫu
+                            $result = Form::getById($item_id);
+                            if($result != null){
+                                $new_row['form_upload'] = $file_name;
+                                Form::updateData($item_id, $new_row);
+                                $tmpImg['src'] = FuncLib::getBaseUrl().'uploads/'.CGlobal::FOLDER_FORM.'/'.$item_id.'/'.$file_name;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    $aryData['intIsOK'] = 1;
+                    $aryData['id_item'] = $item_id;
+                    $aryData['info'] = $tmpImg;
+                }
+            }
+        }
+        return $aryData;
+    }
     function remove_image()
     {
         $id = (int)Request::get('id', 0);
@@ -352,6 +417,46 @@ class AjaxUploadController extends BaseAdminController
                     if ($delete_action == 1) {
                         $aryData['intIsOK'] = 1;
                         $aryData['msg'] = "Remove Img!";
+                    }
+                }
+                break;
+            case 8: //Biểu mẫu
+                $folder_image = 'uploads/' . CGlobal::FOLDER_FORM;
+
+                if ($id > 0 && $nameImage != '' && $folder_image != '') {
+                    $delete_action = $this->delete_form_item($id, $nameImage, $folder_image, $type);
+
+                    if ($delete_action == 1) {
+                        $aryData['intIsOK'] = 1;
+                        $aryData['msg'] = "Remove Form!";
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        echo json_encode($aryData);
+        exit();
+    }
+    function remove_form(){
+        $id = (int)Request::get('id', 0);
+        $nameForm = Request::get('nameForm', '');
+        $type = (int)Request::get('type', 1);
+        $pos = Request::get('pos', -1);
+        $aryData = array();
+        $aryData['intIsOK'] = -1;
+        $aryData['msg'] = "Remove Form!";
+        $aryData['nameForm'] = $nameForm;
+        switch( $type ){
+            case 8:// Form
+                $folder_form = 'uploads/'.CGlobal::FOLDER_FORM;
+
+                if($id > 0 && $nameForm != '' && $nameForm != ''){
+                    $delete_action = $this->delete_form_item($id, $nameForm, $folder_form, $type);
+
+                    if($delete_action == 1){
+                        $aryData['intIsOK'] = 1;
+                        $aryData['msg'] = "Remove Form!";
                     }
                 }
                 break;
@@ -423,6 +528,42 @@ class AjaxUploadController extends BaseAdminController
         //xoa khi chua update vao db, anh moi up load
         if ($delete_action == 0) {
             $this->unlinkFileAndFolder($nameImage, $id, $folder_image, true);
+            $delete_action = 1;
+        }
+        return $delete_action;
+    }
+    function delete_form_item($id, $nameForm, $folder_form, $type){
+        $delete_action = 0;
+        $form_path  = '';
+        switch( $type ){
+            case 8://Biểu mẫu
+                $result = Form::getById($id);
+                if($result != null){
+                    $form_path = $result['form_upload'];
+                }
+                break;
+            default:
+                $folder_form = '';
+                break;
+        }
+        if (isset($form_path) && $form_path != ''){
+            if ($form_path === $nameForm){
+                $this->unlinkFileAndFolder($nameForm,$id,$folder_form,true);
+                switch ($type){
+                    case 8: //Img Form
+                        $new_row['form_upload'] = '';
+                        Form::updateData($id, $new_row);
+                        break;
+                    default:
+                        $folder_form = '';
+                        break;
+                }
+                $delete_action = 1;
+            }
+        }
+        //xoa khi chua update vao db, anh moi up load
+        if($delete_action == 0){
+            $this->unlinkFileAndFolder($nameForm, $id, $folder_form, true);
             $delete_action = 1;
         }
         return $delete_action;

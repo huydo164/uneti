@@ -83,7 +83,7 @@ use App\Library\PHPDev\ThumbImg;
                                                                                    onclick="UploadAdmin.checkedImage('<?php echo e($v['img_other']); ?>','<?php echo e($k); ?>');">
                                                                             <label for="checked_image_<?php echo e($k); ?>" style='font-weight:normal'>Ảnh đại diện</label>
                                                                             <br/>
-                                                                            <a href="javascript:void(0);" id="sys_delete_img_other_<?php echo e($k); ?>" onclick="UploadAdmin.removeImage('<?php echo e($k); ?>', '<?php echo e($data['sinh_vien_id']); ?>', '<?php echo e($v['img_other']); ?>', '7');">Xóa ảnh</a>
+                                                                            <a href="javascript:void(0);" id="sys_delete_img_other_<?php echo e($k); ?>" onclick="UploadAdmin.removeImage('<?php echo e($k); ?>', '<?php echo e($id); ?>', '<?php echo e($v['img_other']); ?>', '7');">Xóa ảnh</a>
                                                                             <span style="display: none"><b><?php echo e($k); ?></b></span>
                                                                         </div>
                                                                     </li>
@@ -118,7 +118,7 @@ use App\Library\PHPDev\ThumbImg;
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Mật khẩu<span>*</span></label>
-                                                        <input type="password" class="form-control input-sm" name="password" value="<?php if(isset($data['password'])): ?><?php echo e($data['password']); ?><?php endif; ?>">
+                                                        <input type="password" class="form-control input-sm" name="password">
                                                     </div>
                                                 </div>
                                                 <div class="clearfix"></div>
@@ -191,7 +191,10 @@ use App\Library\PHPDev\ThumbImg;
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Ngành <span>*</span></label>
-                                                        <input type="text" class="form-control input-sm" name="nganh" value="<?php if(isset($data['nganh'])): ?><?php echo e($data['nganh']); ?><?php endif; ?>">
+                                                        <select name="branch_id" class="form-control input-sm" id="">
+                                                            <?php echo $optionBranch; ?>
+
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="clearfix"></div>

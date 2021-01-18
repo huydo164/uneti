@@ -23,4 +23,5 @@ class CDatabase{
     const contact = 'contact';
     const sinh_vien = 'sinh_vien';
     const branch = 'branch';
+    const form = 'form';
 }

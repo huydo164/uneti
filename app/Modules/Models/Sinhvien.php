@@ -21,7 +21,7 @@ class Sinhvien extends Model{
 
     protected $fillable = [
         'sinh_vien_id', 'ten_sv', 'password', 'truong_hoc', 'msv', 'ngaysinh', 'gioi_tinh', 'he_dao_tao', 'sv_status', 'so_cmt', 'sv_description',
-        'noi_o', 'email_truong', 'email_ca_nhan', 'dien_thoai', 'lop', 'khoa', 'nganh', 'quoc_gia', 'quan_huyen', 'xa_phuong', 'sv_focus', 'sv_order_no', 'sv_created', 'sv_re_password',
+        'noi_o', 'email_truong', 'email_ca_nhan', 'dien_thoai', 'lop', 'khoa', 'branch_id', 'quoc_gia', 'quan_huyen', 'xa_phuong', 'sv_focus', 'sv_order_no', 'sv_created', 'sv_re_password',
         'sv_img', 'sv_img_other'
     ];
 
@@ -103,12 +103,13 @@ class Sinhvien extends Model{
         try {
             DB::connection()->getPdo()->beginTransaction();
             $data = Sinhvien::getById($id);
-            //FuncLib::bug($data);
+            //FuncLib::bug($dataInput);
             if($id > 0 && !empty($dataInput)){
                 $data->update($dataInput);
                 if(isset($data->sinh_vien_id) && $data->sinh_vien_id > 0){
                     self::removeCacheId($data->sinh_vien_id);
                 }
+
             }
             DB::connection()->getPdo()->commit();
             return $id;
